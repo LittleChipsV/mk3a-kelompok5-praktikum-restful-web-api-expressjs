@@ -5,19 +5,15 @@ const { sequelize } = require("./models");
 const bookRoutes = require("./routes/book");
 const errorHandler = require("./middleware/globalErrorHandler");
 const routeNotFoundHandler = require("./middleware/routeNotFoundHandler");
-const helmet = require("helmet");
 const limiter = require("./middleware/rateLimiter");
-const sanitizeMiddleware = require("./middleware/sanitizeUserInput");
 
 const app = express();
 
 // Middleware
 app.use(cors({ origin: "*" }));
-app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api", limiter);
-app.use(sanitizeMiddleware);
 
 // Routes
 app.use("/api/books", bookRoutes);

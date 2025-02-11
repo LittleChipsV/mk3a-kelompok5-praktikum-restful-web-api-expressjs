@@ -1,6 +1,5 @@
 const { ForeignKeyConstraintError } = require("sequelize");
 const { Book } = require("../models");
-const AppError = require("../utils/AppError");
 
 class BookController {
   static index = async (req, res, next) => {
@@ -21,7 +20,10 @@ class BookController {
       const book = await Book.findByPk(req.params.id);
 
       if (!book) {
-        throw new AppError(404, "Buku tidak ditemukan");
+        return res.status(404).json({
+          success: false,
+          message: "Buku tidak ditemukan",
+        });
       }
 
       res.status(200).json({
@@ -44,7 +46,10 @@ class BookController {
       });
     } catch (error) {
       if (error instanceof ForeignKeyConstraintError) {
-        next(new AppError(400, "category_id atau user_id tidak valid"));
+        return res.status(400).json({
+          success: false,
+          message: "category_id atau user_id tidak valid",
+        });
       }
 
       next(error);
@@ -56,7 +61,10 @@ class BookController {
       const book = await Book.findByPk(req.params.id);
 
       if (!book) {
-        throw new AppError(404, "Buku tidak ditemukan");
+        return res.status(404).json({
+          success: false,
+          message: "Buku tidak ditemukan",
+        });
       }
 
       await book.update(req.body);
@@ -67,7 +75,10 @@ class BookController {
       });
     } catch (error) {
       if (error instanceof ForeignKeyConstraintError) {
-        next(new AppError(400, "category_id atau user_id tidak valid"));
+        return res.status(400).json({
+          success: false,
+          message: "category_id atau user_id tidak valid",
+        });
       }
 
       next(error);
@@ -79,7 +90,10 @@ class BookController {
       const book = await Book.findByPk(req.params.id);
 
       if (!book) {
-        throw new AppError(404, "Buku tidak ditemukan");
+        return res.status(404).json({
+          success: false,
+          message: "Buku tidak ditemukan",
+        });
       }
 
       await book.destroy();

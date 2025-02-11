@@ -1,5 +1,6 @@
-const AppError = require("../utils/AppError");
-
 module.exports = (req, res, next) => {
-  next(new AppError(404, "Route tidak ditemukan"));
+  res.status(404).json({
+    success: false,
+    message: `Route '${req.originalUrl}' tidak ditemukan`,
+  });
 };
